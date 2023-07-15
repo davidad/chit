@@ -6,6 +6,8 @@ mod patch;
 pub use patch::UuidSetPatch;
 mod state;
 pub use state::TotalState;
+mod version;
+pub use version::Version;
 
 impl TotalState {
   pub fn new() -> Self {
@@ -42,7 +44,7 @@ impl TotalState {
       .source_commits
       .push(*self.universe.get_index(commit).unwrap());
     let version = self.version_cache.get(&commit)?;
-    self.working_state = version.iter().collect();
+    self.working_state = version.local_universe.iter().collect();
     Some(())
   }
 

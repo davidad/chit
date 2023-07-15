@@ -1,6 +1,6 @@
 use crate::id::*;
-
 use crate::state::*;
+use crate::version::*;
 use indexmap::IndexSet;
 
 pub fn process_patch(
@@ -36,7 +36,7 @@ pub fn process_patch(
       source_version = Some(version_cache.get(&source_commit_luid).unwrap());
     }
     heads.remove(&source_commit_luid);
-    version.extend(source_version.unwrap().iter());
+    version.extend(source_version.unwrap().local_universe.iter());
   }
   version.retain(|luid| {
     let uuid = universe.get_index(*luid).unwrap();
@@ -56,5 +56,10 @@ pub fn process_patch(
   );
   let target_commit_luid = universe.insert_full(patch.target_commit).0;
   heads.insert(target_commit_luid);
-  version_cache.insert(target_commit_luid, version.into_iter().collect());
+  version_cache.insert(
+    target_commit_luid,
+    Version {
+      local_universe: version.into_iter().collect(),
+    },
+  );
 }

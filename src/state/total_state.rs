@@ -1,7 +1,7 @@
 use crate::id::*;
 use crate::patch::*;
+use crate::version::*;
 use indexmap::IndexSet;
-use range_set_blaze::RangeSetBlaze;
 use std::collections::{BTreeMap, BTreeSet, HashMap};
 use tinyvec::TinyVec;
 
@@ -10,7 +10,7 @@ pub type Universe = IndexSet<Uuid>;
 pub type Commits = BTreeMap<Luid, TinyVec<[(TinyVec<[Luid; 2]>, Luid); 1]>>;
 pub type Patches = BTreeMap<Luid, UuidSetPatch>;
 pub type Heads = BTreeSet<Luid>;
-pub type VersionCache = HashMap<Luid, RangeSetBlaze<Luid>>; // TODO: consider alternative data structures
+pub type VersionCache = HashMap<Luid, Version>; // TODO: consider alternative data structures
 pub(crate) type WorkingPatch = UuidSetPatch;
 pub(crate) type WorkingState = IndexSet<Luid>;
 
