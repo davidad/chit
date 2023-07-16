@@ -19,7 +19,7 @@ impl TotalState {
     for (i, path) in patch_files.iter().enumerate() {
       let f = File::open(path).unwrap();
       let mmap = unsafe { Mmap::map(&f).unwrap() };
-      let patch = check_archived_root::<UuidSetPatch>(mmap.as_ref()).unwrap();
+      let patch = check_archived_root::<Patch>(mmap.as_ref()).unwrap();
       let patch_uuid_str = path
         .file_name()
         .unwrap()
@@ -57,14 +57,14 @@ impl TotalState {
     }
   }
 
-  pub(in crate::state) fn index_patch(&mut self, patch_uuid: Uuid, patch: UuidSetPatch) -> Luid {
+  pub(in crate::state) fn index_patch(&mut self, patch_uuid: Uuid, patch: Patch) -> Luid {
     // add patch to universe
     let patch_luid = self.universe.insert_full(patch_uuid).0;
     // add patch to patches
     self.patches.insert(patch_luid, patch);
     let patch_ref = self.patches.get(&patch_luid).unwrap();
     // add patch contents to universe
-    patch_ref.additions.iter().for_each(|uuid| {
+    patch_ref.universe_patch.additions.iter().for_each(|uuid| {
       self.universe.insert(*uuid);
     });
     // add target commit to universe

@@ -1,7 +1,10 @@
 use base64ct::{Base64UrlUnpadded, Encoding};
 pub use uuid::Uuid;
 
-pub type Luid = usize;
+pub type Lid = usize;
+pub type Luid = Lid;
+pub type Vlid = Lid;
+pub type Slid = Lid;
 
 pub trait AsBase64Url {
   fn as_base64url(&self) -> String;

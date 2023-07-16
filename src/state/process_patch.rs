@@ -12,7 +12,7 @@ pub fn process_patch(
   patch_luid: Luid,
 ) {
   let patch = patches.get(&patch_luid).unwrap();
-  let mut version: IndexSet<Luid> = IndexSet::new();
+  let mut version_universe: IndexSet<Luid> = IndexSet::new();
   for source_commit in patch.source_commits.iter() {
     let source_commit_luid = universe.get_index_of(source_commit).unwrap();
     let mut source_version = version_cache.get(&source_commit_luid);
@@ -36,20 +36,21 @@ pub fn process_patch(
       source_version = Some(version_cache.get(&source_commit_luid).unwrap());
     }
     heads.remove(&source_commit_luid);
-    version.extend(source_version.unwrap().local_universe.iter());
+    version_universe.extend(source_version.unwrap().version_universe.iter());
   }
-  version.retain(|luid| {
+  let universe_patch = &patch.universe_patch;
+  version_universe.retain(|luid| {
     let uuid = universe.get_index(*luid).unwrap();
-    if patch.deletions.contains(uuid) {
+    if universe_patch.deletions.contains(uuid) {
       false
-    } else if let Some(merged_into) = patch.merges.get(uuid) {
+    } else if let Some(merged_into) = universe_patch.merges.get(uuid) {
       uuid == merged_into
     } else {
       true
     }
   });
-  version.extend(
-    patch
+  version_universe.extend(
+    universe_patch
       .additions
       .iter()
       .map(|uuid| universe.get_index_of(uuid).unwrap()),
@@ -59,7 +60,10 @@ pub fn process_patch(
   version_cache.insert(
     target_commit_luid,
     Version {
-      local_universe: version.into_iter().collect(),
+      version_universe: version_universe.into_iter().collect(),
+      s0: Default::default(),
+      s0i: Default::default(),
+      ctx: Default::default(),
     },
   );
 }

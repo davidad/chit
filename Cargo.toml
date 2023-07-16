@@ -10,6 +10,7 @@ indexmap = "2.0.0"
 range-set-blaze = "0.1.6"
 metro = "0.1.1"
 index_list = "0.2.7"
+roaring = "0.10.1"
 
 [dependencies.base64ct]
 version = "1.6.0"

@@ -16,7 +16,7 @@ thread_local! {
 }
 
 impl TotalState {
-  pub fn commit(&mut self) -> (Uuid, &UuidSetPatch) {
+  pub fn commit(&mut self) -> (Uuid, &Patch) {
     // make a new UUID for the patch
     let new_patch_id = Uuid::now_v7();
     // make a new UUID for the commit

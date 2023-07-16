@@ -8,10 +8,10 @@ use tinyvec::TinyVec;
 pub type Universe = IndexSet<Uuid>;
 //              target commit id,          source commit id(s), patch id
 pub type Commits = BTreeMap<Luid, TinyVec<[(TinyVec<[Luid; 2]>, Luid); 1]>>;
-pub type Patches = BTreeMap<Luid, UuidSetPatch>;
+pub type Patches = BTreeMap<Luid, Patch>;
 pub type Heads = BTreeSet<Luid>;
 pub type VersionCache = HashMap<Luid, Version>; // TODO: consider alternative data structures
-pub(crate) type WorkingPatch = UuidSetPatch;
+pub(crate) type WorkingPatch = Patch;
 pub(crate) type WorkingState = IndexSet<Luid>;
 
 #[derive(Default)]
