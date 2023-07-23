@@ -7,7 +7,7 @@
 ```
 cargo run --release
 ```
-![demo][./demo.png]
+![demo](./demo.png)
 
 All commits are serialized to disk (in a folder called patches/) and then read back from disk on startup.
 
