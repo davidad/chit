@@ -3,7 +3,7 @@ use std::path::PathBuf;
 mod context;
 pub use context::Context;
 mod id;
-pub use id::{AsBase64Url, FromBase64Url, Luid, Uuid, Vlid, Slid};
+pub use id::{AsBase64Url, FromBase64Url, Luid, Slid, Uuid, Vlid};
 mod patch;
 pub use patch::UuidSetPatch;
 mod state;
@@ -46,7 +46,11 @@ impl TotalState {
       .source_commits
       .push(*self.universe.get_index(commit).unwrap());
     let version = self.version_cache.get(&commit)?;
-    self.working_state = version.version_universe.iter().collect();
+    self.working_state = version
+      .version_universe
+      .iter()
+      .map(|x| x as usize)
+      .collect();
     Some(())
   }
 

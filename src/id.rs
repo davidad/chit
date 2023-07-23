@@ -1,9 +1,18 @@
 use base64ct::{Base64UrlUnpadded, Encoding};
+
+// Uuid = Universally Unique ID (128 bits; globally unique)
 pub use uuid::Uuid;
 
+// Local ID type (just an unsigned integer)
 pub type Lid = usize;
+
+// Luid = Locally Universal ID: local to an entire installation
 pub type Luid = Lid;
+
+// Vlid = Version-Local ID: local to a single version
 pub type Vlid = Lid;
+
+// Slid = Set-Local ID: local to a single finite set within a single version
 pub type Slid = Lid;
 
 pub trait AsBase64Url {
