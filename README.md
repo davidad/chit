@@ -11,6 +11,8 @@ cargo run --release
 
 All commits are serialized to disk (in a folder called patches/) and then read back from disk on startup.
 
+Other commands include `heads`, `commits`, and `count` (counts the number of elements in the current set). Actually assigning elements to sorts is only partially implemented WIP. There is a `merge` command but this is also only partially implemented.
+
 ## Motivations
 
 1. **The [Open Agency Architecture](https://www.alignmentforum.org/posts/jRf4WENQnhssCb6mJ/davidad-s-bold-plan-for-alignment-an-in-depth-explanation#Fine_grained_Scheme) calls for compositional version-control systems** for causal models as well as specifications. These need to be organized so that both humans and AIs can both navigate and propose patches easily. The models I have in mind will be fundamentally graphical in nature—more like wiring diagrams or pasting diagrams than programs. The standard version-control paradigm of maintaining a repository of files in a syntax language does not facilitate discovery and manipulation for either AIs (which would do better with graph attention) or humans (which would do better with visual representations, at least at some scales).
