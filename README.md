@@ -110,6 +110,15 @@ In these experiments I've made use of the [RoaringTreemap](https://docs.rs/roari
 
 If we consider CSets as double functors from horizontal double categories into the double category FinRel (which has functions as horizontal morphisms and relations as vertical morphisms), then there is a very natural construction of what it means to be a "patch" between a C0Set and a C1Set: a functor from C0 to C1, equipped with a vertical natural transformation that fills the slice triangle. What this cashes out to, with UUIDs in play, turns out to be a partial function between every sort in the first instance and its (unique) corresponding sort in the second instance. (It's really a relation, but the squares with the UUID attribute can only commute if no elements on the left have multiple related elements on the right.) Add the principle that a previously deleted UUID may never be added again, and you get the convenient lemma that elements with the same UUID are always related, and the only way for elements to be related without sharing the same UUID is if there is a "merge" of one UUID into the other recorded in some patch. (Perfect for a union-find data structure.) Patches are thus recorded, at the sort level (`UuidSetPatch`), as deletions followed by merges followed by additions (exploiting Lack's [spider theorem](https://graphicallinearalgebra.net/tag/spider-theorem/)).
 
+Some open theoretical questions to work out:
+1. With ACSets (as opposed to mere CSets), how does this construction work?
+2. (perhaps related; if not, perhaps unfruitful) Can this be interpreted formally as the Grothendieck construction of the functor assigning to each finite category C its category of CSets? Does this then generalize to ACSets?
+
 ### Submodules
 
 As mentioned earlier, namespaces are often neglected. I hope to get this right, but I'm not sure I have the answer yet. My best idea is that an "import" - which brings in certain named entities from a completely separate repository or branch, under a certain renaming policy - should be a primitive operation, like additions and deletions. This particular operation should be annotated with a "fully qualified branch name": a hostname, account name, repo name, and branch name. And the interface should make it easy to try to "rebase" such operations by fetching the latest authenaticated version of that branch (the equivalent of updating submodules). 
+
+### Version diagrams
+
+The total state of a `chit` installation supervenes upon a **diagram** of versions, i.e. a (monoidal) functor from some (free symmetric monoidal) category into the category of versions and patches. The monoidal product in the category of versions and patches is taken to be categorical coproduct (corresponding to union of underlying UuidSets), so a "commit" (which can have multiple source versions) must denote a patch (which can only have one source version) whose source is the union of the commit's source versions. Similarly, a root commit with no source versions denotes a patch from the empty coproduct (an empty instance of an empty schema).
+
